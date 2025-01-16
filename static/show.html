@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elegant Book Collection</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+      :root {
+        --primary: #4f46e5;
+        --secondary: #10b981;
+        --accent: #f43f5e;
+        --background: #f3f4f6;
+        --text: #1f2937;
+        --card-bg: rgba(255, 255, 255, 0.95);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        animation: fadeDown 0.8s ease forwards;
+      }
+
+      .header h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(to right, #fff, #e2e2e2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .search-container {
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        opacity: 0;
+        animation: fadeDown 0.8s ease forwards 0.2s;
+        position: relative;
+      }
+
+      .search-box {
+        width: 100%;
+        padding: 1.2rem 1.5rem 1.2rem 3rem;
+        border: none;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        background: var(--card-bg);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+      }
+
+      .search-box:focus {
+        outline: none;
+        box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
+        transform: scale(1.02);
+      }
+
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        opacity: 0;
+        animation: fadeDown 0.8s ease forwards 0.3s;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        padding: 1.5rem 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        color: var(--text);
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+
+      .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        padding: 1rem;
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards 0.4s;
+      }
+
+      .book-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+      }
+
+      .book-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+
+      .book-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .book-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .book-title {
+        font-size: 1.5rem;
+        color: var(--text);
+        margin-bottom: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      .book-author {
+        color: #666;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1.1rem;
+      }
+
+      .book-price {
+        font-size: 1.8rem;
+        color: var(--primary);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-top: auto;
+      }
+
+      .book-price i {
+        font-size: 1.4rem;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 3rem;
+        color: white;
+        font-size: 1.5rem;
+        grid-column: 1 / -1;
+      }
+
+      .loading i {
+        animation: spin 1s linear infinite;
+        margin-right: 1rem;
+      }
+
+      .error {
+        text-align: center;
+        padding: 3rem;
+        color: var(--accent);
+        font-size: 1.5rem;
+        grid-column: 1 / -1;
+        background: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .no-results {
+        text-align: center;
+        grid-column: 1 / -1;
+        padding: 3rem;
+        color: white;
+        font-size: 1.5rem;
+        background: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .sort-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeDown 0.8s ease forwards 0.3s;
+      }
+
+      .sort-button {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 50px;
+        background: var(--card-bg);
+        color: var(--text);
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .sort-button:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .sort-button.active {
+        background: var(--primary);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📚 Elegant Book Collection</h1>
+        <p>Discover your next favorite book</p>
+      </div>
+
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-box"
+          placeholder="Search books by title or author..."
+          id="searchInput"
+        />
+      </div>
+
+      <div class="sort-container">
+        <button class="sort-button active" data-sort="title">
+          Sort by Title
+        </button>
+        <button class="sort-button" data-sort="price">Sort by Price</button>
+        <button class="sort-button" data-sort="author">Sort by Author</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="totalBooks">0</div>
+          <div class="stat-label">Total Books</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="averagePrice">$0</div>
+          <div class="stat-label">Average Price</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="authorsCount">0</div>
+          <div class="stat-label">Unique Authors</div>
+        </div>
+      </div>
+
+      <div class="books-grid" id="booksGrid">
+        <div class="loading">
+          <i class="fas fa-spinner"></i> Loading your book collection...
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:3000/getShowData"; // Replace with your actual API endpoint
+
+      let booksData = [];
+      let currentSort = "title";
+
+      async function fetchBooks() {
+        try {
+          const response = await fetch(API_URL);
+
+          // Ensure the response is successful
+          if (!response.ok) throw new Error("Failed to fetch books");
+
+          // Parse the JSON body once
+          const data = await response.json();
+
+          console.log(data); // Log the entire parsed response
+          return data.data; // Access the "data" property
+        } catch (error) {
+          console.error(error.message);
+          throw new Error("Failed to fetch books");
+        }
+      }
+
+      function sortBooks(books, sortBy) {
+        return [...books].sort((a, b) => {
+          switch (sortBy) {
+            case "title":
+              return a.title.localeCompare(b.title);
+            case "price":
+              return a.price - b.price;
+            case "author":
+              return a.author.localeCompare(b.author);
+            default:
+              return 0;
+          }
+        });
+      }
+
+      function updateStats(books) {
+        document.getElementById("totalBooks").textContent = books.length;
+
+        const avgPrice =
+          books.reduce((acc, book) => acc + book.price, 0) / books.length;
+        document.getElementById(
+          "averagePrice"
+        ).textContent = `$${avgPrice.toFixed(2)}`;
+
+        const uniqueAuthors = new Set(books.map((book) => book.author)).size;
+        document.getElementById("authorsCount").textContent = uniqueAuthors;
+      }
+
+      function renderBooks(books) {
+        const grid = document.getElementById("booksGrid");
+
+        if (books.length === 0) {
+          grid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        No books found matching your search.
+                    </div>
+                `;
+          return;
+        }
+
+        grid.innerHTML = books
+          .map(
+            (book) => `
+
+                <div class="book-card">
+                    <div class="book-id">
+                        <i class="fas fa-hashtag"></i>
+                        ID: ${book.id}
+                    </div>
+                    <h2 class="book-title">${book.title}</h2>
+                    <div class="book-author">
+                        <i class="fas fa-user-edit"></i>
+                        ${book.author}
+                    </div>
+                    <div class="book-price">
+                        <i class="fas fa-tag"></i>
+                        $${book.price.toFixed(2)}
+                    </div>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      function filterBooks(books, searchTerm) {
+        return books.filter(
+          (book) =>
+            book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            book.author.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+
+      async function init() {
+        try {
+          booksData = await fetchBooks();
+          updateStats(booksData);
+          renderBooks(sortBooks(booksData, currentSort));
+
+          // Set up search functionality
+          const searchInput = document.getElementById("searchInput");
+          searchInput.addEventListener("input", (e) => {
+            const filtered = filterBooks(booksData, e.target.value);
+            renderBooks(sortBooks(filtered, currentSort));
+            updateStats(filtered);
+          });
+
+          // Set up sorting
+          document.querySelectorAll(".sort-button").forEach((button) => {
+            button.addEventListener("click", (e) => {
+              currentSort = e.target.dataset.sort;
+              document
+                .querySelectorAll(".sort-button")
+                .forEach((btn) => btn.classList.remove("active"));
+              e.target.classList.add("active");
+              const filtered = filterBooks(
+                booksData,
+                document.getElementById("searchInput").value
+              );
+              renderBooks(sortBooks(filtered, currentSort));
+            });
+          });
+        } catch (error) {
+          document.getElementById("booksGrid").innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Failed to load books. Please try again later.
+                    </div>
+                `;
+        }
+      }
+
+      init();
+    </script>
+  </body>
+</html>

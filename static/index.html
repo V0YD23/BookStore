@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a New Book</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #6C63FF;
+            --secondary: #4CAF50;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--dark);
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .header .icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+        }
+
+        .form-group i {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus + i {
+            color: var(--primary);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: #5651e5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: width 0.3s ease, height 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        button:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Added decorative elements */
+        .decoration {
+            position: absolute;
+            z-index: -1;
+        }
+
+        .circle1 {
+            width: 100px;
+            height: 100px;
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 50%;
+            top: -50px;
+            left: -50px;
+        }
+
+        .circle2 {
+            width: 150px;
+            height: 150px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 50%;
+            bottom: -75px;
+            right: -75px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decoration circle1"></div>
+        <div class="decoration circle2"></div>
+        <div class="header">
+            <i class="fas fa-book-open icon"></i>
+            <h1>Add a New Book</h1>
+        </div>
+        <form id="bookForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" placeholder="Enter book title" required>
+                <i class="fas fa-heading"></i>
+            </div>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" placeholder="Enter author's name" required>
+                <i class="fas fa-user-edit"></i>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" id="price" name="price" placeholder="Enter book price" required>
+                <i class="fas fa-tag"></i>
+            </div>
+            <div class="form-group">
+                <button type="submit">
+                    Add Book <i class="fas fa-plus-circle"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById("bookForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            // Collect form data
+            const title = document.getElementById("title").value;
+            const author = document.getElementById("author").value;
+            const price = parseFloat(document.getElementById("price").value); // Convert to numerical value
+
+            if (isNaN(price)) {
+                console.error("Price must be a valid number.");
+                alert("Please enter a valid numerical value for the price.");
+                return;
+            }
+            
+            // Construct the data object
+            const bookData = {
+                title: title,
+                author: author,
+                price: price
+            };
+
+            console.log(bookData)
+
+            try {
+                // Send data to the API
+                const response = await fetch("http://localhost:3000/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(bookData)
+                });
+
+                // Handle the API response
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log("Response from server:", result);
+                } else {
+                    console.error("Failed to add book. Status:", response.status);
+                    alert("Failed to add book. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error during fetch operation:", error);
+                alert("An error occurred. Please try again later.");
+            }
+        });
+    </script>
+</body>
+
+</html>
